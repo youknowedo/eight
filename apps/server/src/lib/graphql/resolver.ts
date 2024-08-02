@@ -1,4 +1,4 @@
-import { Context, Resolvers } from "eight-shared/graphql";
+import { Context, Resolvers } from "shared/graphql";
 import { Models } from "./models";
 
 export const resolvers: Resolvers<Context<Models>> = {

@@ -2,9 +2,9 @@ import { lucia } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { userTable } from "@/lib/schema/user";
 import { eq, or } from "drizzle-orm";
-import { Context, Session } from "eight-shared/graphql";
 import { GraphQLError } from "graphql";
 import { generateIdFromEntropySize } from "lucia";
+import { Context, Session } from "shared/graphql";
 import { ModelContext } from ".";
 
 export const auth = (context: ModelContext) => ({

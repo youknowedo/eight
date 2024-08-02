@@ -1,8 +1,6 @@
 import {
     doublePrecision,
-    numeric,
     pgSchema,
-    pgTable,
     text,
     timestamp,
 } from "drizzle-orm/pg-core";
@@ -35,6 +33,6 @@ export const sessionTable = schema.table("session", {
         .references(() => userTable.id),
     expiresAt: timestamp("expires_at", {
         withTimezone: true,
-        mode: "string",
+        mode: "date",
     }).notNull(),
 });

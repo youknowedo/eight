@@ -3,12 +3,12 @@ import { models, Models } from "@/lib/graphql/models";
 import { resolvers } from "@/lib/graphql/resolver";
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { Context, typeDefs } from "eight-shared/graphql";
 import { NextRequest } from "next/server";
+import { Context, typeDefs } from "shared/graphql";
 
 const server = new ApolloServer<Context<Models>>({
     typeDefs,
-    resolvers,
+    resolvers: [],
 });
 
 const handler = startServerAndCreateNextHandler<NextRequest, Context<Models>>(
