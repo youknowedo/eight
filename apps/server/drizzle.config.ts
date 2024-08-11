@@ -5,10 +5,10 @@ export default defineConfig({
     out: "./drizzle",
     dialect: "postgresql",
     dbCredentials: {
-        database: "",
-        host: "hackclub.app",
-        port: 5432,
-        user: "",
-        password: "",
+        database: process.env.DB_NAME ?? "",
+        host: process.env.DB_HOST ?? "",
+        port: parseInt(process.env.DB_PORT ?? "5432"),
+        user: process.env.DB_USER ?? "",
+        password: process.env.DB_PASS ?? "",
     },
 });
