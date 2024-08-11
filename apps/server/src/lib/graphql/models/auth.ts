@@ -51,7 +51,7 @@ export const auth = (context: ModelContext) => ({
 
         // TODO: Validate email, password & username
 
-        const passwordHash = await Bun.password.hash(password, {
+        const password_hash = await Bun.password.hash(password, {
             algorithm: "argon2id",
             memoryCost: 19456,
             timeCost: 2,
@@ -62,7 +62,7 @@ export const auth = (context: ModelContext) => ({
             id,
             email,
             username,
-            passwordHash,
+            password_hash,
         });
 
         const session = await lucia.createSession(id, {});
@@ -95,7 +95,7 @@ export const auth = (context: ModelContext) => ({
 
         const validPassword = await Bun.password.verify(
             password,
-            user.passwordHash,
+            user.password_hash,
             "argon2id"
         );
         if (!validPassword) {

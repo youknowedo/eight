@@ -29,7 +29,7 @@ export const authDefs = gql`
     }
 
     type Query {
-        currentUser(): User
+        currentUser: User
         user(id: ID!): User
     }
 `;

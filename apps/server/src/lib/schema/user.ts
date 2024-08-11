@@ -11,7 +11,7 @@ export const userTable = schema.table("user", {
     id: text("id").primaryKey(),
     username: text("username").notNull(),
     email: text("email").notNull(),
-    passwordHash: text("password_hash").notNull(),
+    password_hash: text("password_hash").notNull(),
 });
 
 export const locationTable = schema.table("location", {

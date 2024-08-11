@@ -1,8 +1,18 @@
 import { Context, Resolvers } from "shared/graphql";
+import { lucia } from "../auth";
 import { Models } from "./models";
 
 export const resolvers: Resolvers<Context<Models>> = {
-    Query: {},
+    Query: {
+        currentUser: async (_, __, context) => {
+            return context.models.user.current();
+        },
+        user: async (_, args, context) => {
+            const { id } = args;
+
+            return context.models.user.get(id);
+        },
+    },
     Mutation: {
         signup: async (_, args, context) => {
             const { email, username, password } = args;

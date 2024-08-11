@@ -52,6 +52,7 @@ export type MutationUserLocationArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  currentUser?: Maybe<User>;
   user?: Maybe<User>;
 };
 
@@ -185,6 +186,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 };
 

@@ -1,10 +1,14 @@
-import { SessionProvider } from "@/auth/context";
-import { Slot, Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
+import { Text } from "react-native";
 
-export default function RootLayout() {
-    return (
-        <SessionProvider>
-            <Slot />
-        </SessionProvider>
-    );
+export default function AppLayout() {
+    if (isLoading) {
+        return <Text>Loading...</Text>;
+    }
+
+    if (!session) {
+        return <Redirect href="/login" />;
+    }
+
+    return <Stack />;
 }

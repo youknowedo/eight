@@ -12,6 +12,7 @@
     "@apollo/server": "^4.10.5",
     "@as-integrations/next": "^3.1.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
+    "arctic": "^1.9.2",
     "drizzle-orm": "^0.33.0",
     "graphql": "^16.9.0",
     "lucia": "^3.2.0",

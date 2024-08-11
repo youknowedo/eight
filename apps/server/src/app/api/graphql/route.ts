@@ -11,11 +11,23 @@ const server = new ApolloServer<Context<Models>>({
     resolvers: [],
 });
 
+const emptyContext: Context<Models> = {
+    bearerToken: undefined,
+    userId: undefined,
+    sessionId: undefined,
+    models: models({ userId: undefined, sessionId: undefined }),
+};
+
 const handler = startServerAndCreateNextHandler<NextRequest, Context<Models>>(
     server,
     {
         context: async (req): Promise<Context<Models>> => {
-            const sessionId = req.headers.get("Session") ?? undefined;
+            const bearerToken = req.headers.get("Authorization") ?? undefined;
+            if (!bearerToken) return emptyContext;
+
+            const sessionId = lucia.readBearerToken(bearerToken);
+            if (!sessionId) return emptyContext;
+
             let userId: string | undefined = undefined;
             if (sessionId) {
                 const user = await lucia
