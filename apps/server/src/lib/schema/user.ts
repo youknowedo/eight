@@ -9,9 +9,10 @@ const schema = pgSchema("eight");
 
 export const userTable = schema.table("user", {
     id: text("id").primaryKey(),
-    username: text("username").notNull(),
+    username: text("username"),
     email: text("email").notNull(),
-    password_hash: text("password_hash").notNull(),
+    password_hash: text("password_hash"),
+    github_id: text("github_id"),
 });
 
 export const locationTable = schema.table("location", {

@@ -23,7 +23,6 @@
         "@graphql-codegen/introspection": "4.0.3"
     },
     "scripts": {
-        "codegen": "graphql-codegen --config codegen.ts",
-        "dev": "graphql-codegen --config codegen.ts --watch"
+        "codegen": "graphql-codegen --config codegen.ts"
     }
 }

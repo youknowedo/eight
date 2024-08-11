@@ -1,6 +1,6 @@
 import { lucia } from "@/lib/auth";
 import { models, Models } from "@/lib/graphql/models";
-import { resolvers } from "@/lib/graphql/resolver";
+// import { resolvers } from "@/lib/graphql/resolver";
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { NextRequest } from "next/server";
