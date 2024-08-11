@@ -18,9 +18,8 @@ export const locationTable = schema.table("location", {
     userId: text("user_id")
         .primaryKey()
         .references(() => userTable.id),
-    latitude: doublePrecision("latitude"),
-    longitude: doublePrecision("longitude"),
-    with: text("with"),
+    latitude: doublePrecision("latitude").notNull(),
+    longitude: doublePrecision("longitude").notNull(),
     timestamp: timestamp("timestamp", {
         withTimezone: true,
         mode: "string",

@@ -10,14 +10,9 @@ export const authDefs = gql`
     }
 
     type Location {
-        with: ID
-        coords: Coords
-        timestamp: String!
-    }
-
-    type Coords {
         longitude: Float!
         latitude: Float!
+        timestamp: String!
     }
 
     type Session {
@@ -30,12 +25,11 @@ export const authDefs = gql`
         signup(email: String!, username: String!, password: String!): Session
         login(username: String!, password: String!): Session
 
-        userLocationToCoords(longitude: Float!, latitude: Float!): Location
-        userLocationToUser(id: ID!): Location
+        userLocation(longitude: Float!, latitude: Float!): Location
     }
 
     type Query {
-        currentUser: User
+        currentUser(): User
         user(id: ID!): User
     }
 `;
