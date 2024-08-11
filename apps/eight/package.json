@@ -15,8 +15,8 @@
         "preset": "jest-expo"
     },
     "dependencies": {
-        "shared": "*",
         "@apollo/client": "^3.11.4",
+        "@eight/shared": "*",
         "@expo/metro-runtime": "~3.2.1",
         "@expo/vector-icons": "^14.0.2",
         "@react-navigation/native": "^6.0.2",

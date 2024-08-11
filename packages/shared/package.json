@@ -1,5 +1,5 @@
 {
-    "name": "shared",
+    "name": "@eight/shared",
     "version": "0.0.1",
     "exports": {
         "./graphql": "./src/graphql/index.ts"
