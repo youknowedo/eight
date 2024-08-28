@@ -1,0 +1,12 @@
+{
+	"rewrites": [
+		{
+			"source": "/api/",
+			"destination": "https://api.kader.se/"
+		},
+		{
+			"source": "/api/:match*",
+			"destination": "https://api.kader.se/:match*"
+		}
+	]
+}

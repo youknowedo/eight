@@ -6,4 +6,4 @@ Today's social media wants you to stay on the app, and therefore your screen, as
 
 ## License
 
-Licensed under the [Fair Source License](./LICENSE)
+Licensed under the [MIT License](./LICENSE).

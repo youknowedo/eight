@@ -1,0 +1,22 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"id": "fun.sigfredo.eight",
+	"name": "eight",
+	"short_name": "eight",
+	"description": "Actually hang out with your friends",
+	"start_url": "./",
+	"display": "standalone",
+	"theme_color": "#ff0000",
+	"background_color": "#121212",
+	"icons": [
+		{
+			"src": "/logo.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		}
+	],
+	"launch_handler": {
+		"client_mode": "focus-existing"
+	},
+	"orientation": "portrait"
+}
