@@ -1,4 +1,8 @@
 <script lang="ts">
+	import DoorOpen from 'lucide-svelte/icons/door-open';
+	import UserRoundPlus from 'lucide-svelte/icons/user-round-plus';
+
+	import { goto } from '$app/navigation';
 	import { trpc } from '$lib/trpc';
 	import { onMount } from 'svelte';
 
@@ -12,7 +16,7 @@
 	let friends: Friend[] | undefined = undefined;
 
 	onMount(async () => {
-		const { friends: ids } = await trpc.user.getFriends.query();
+		const { friends: ids } = await trpc.friends.getAll.query();
 		const { users } = await trpc.user.getMultiple.query(ids);
 
 		friends = users?.map((user) => ({
@@ -60,4 +64,13 @@
 			{/each}
 		{/if}
 	</div>
+</div>
+
+<div class="absolute right-0 flex flex-col gap-4 bottom-40">
+	<button on:click={() => goto('/add')} class="rounded-full bg-muted neu-up">
+		<UserRoundPlus class="w-6 h-6 m-4 stroke-muted-foreground" />
+	</button>
+	<button class="rounded-full bg-primary neu-r">
+		<DoorOpen class="w-6 h-6 m-4" />
+	</button>
 </div>

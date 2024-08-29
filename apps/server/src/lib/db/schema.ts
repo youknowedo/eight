@@ -62,3 +62,13 @@ export const friendsTable = pgTable("friends", {
         .notNull()
         .references(() => userTable.id),
 });
+
+export const friendRequestsTable = pgTable("friend_requests", {
+    id: text("id").primaryKey(),
+    from: text("from")
+        .notNull()
+        .references(() => userTable.id),
+    to: text("to")
+        .notNull()
+        .references(() => userTable.id),
+});
