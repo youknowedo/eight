@@ -1,9 +1,11 @@
 <script lang="ts">
+	import '@eight/ui/styles.css';
+	import '@fontsource-variable/raleway';
+
 	import { invalidateAll } from '$app/navigation';
 	import { offline, user } from '$lib/stores';
 	import { trpc } from '$lib/trpc';
 	import { AlertDialog, Button, Card, Input, Label, Toaster } from '@eight/ui/components';
-	import '@eight/ui/styles.css';
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
 
