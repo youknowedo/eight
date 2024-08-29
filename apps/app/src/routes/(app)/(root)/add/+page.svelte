@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { trpc } from '$lib/trpc';
 	import { Input } from '@eight/ui/components';
 	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
@@ -19,18 +20,16 @@
 	};
 </script>
 
-<div class="h-screen py-12">
-	<button class="flex items-center mb-4 -ml-4">
-		<ChevronLeft class="w-6 h-6 m-4" />
+<button on:click={() => goto('/')} class="flex items-center mb-4 -ml-4">
+	<ChevronLeft class="w-6 h-6 m-4" />
 
-		<p class="text-2xl font-black">Add friend</p>
+	<p class="text-2xl font-black">Add friend</p>
+</button>
+
+<form class="flex gap-2" on:submit={request}>
+	<Input id="username" name="username" placeholder="Enter username" />
+
+	<button type="submit" class="h-10 rounded-md bg-primary">
+		<Search class="w-4 h-4 m-3" />
 	</button>
-
-	<form class="flex gap-2">
-		<Input id="username" name="username" placeholder="Enter username" />
-
-		<button type="submit" class="h-10 rounded-md bg-primary">
-			<Search class="w-4 h-4 m-3" />
-		</button>
-	</form>
-</div>
+</form>

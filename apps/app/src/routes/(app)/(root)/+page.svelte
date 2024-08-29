@@ -1,9 +1,11 @@
 <script lang="ts">
+	import Bell from 'lucide-svelte/icons/bell';
 	import DoorOpen from 'lucide-svelte/icons/door-open';
 	import UserRoundPlus from 'lucide-svelte/icons/user-round-plus';
 
 	import { goto } from '$app/navigation';
 	import { trpc } from '$lib/trpc';
+	import { Button } from '@eight/ui/components';
 	import { onMount } from 'svelte';
 
 	type Status = 'hanging' | 'down' | 'ghost';
@@ -28,7 +30,13 @@
 </script>
 
 <div class="flex flex-col gap-8">
-	<h1 class="text-5xl font-black">Good morning!</h1>
+	<div class="flex justify-between">
+		<h1 class="text-5xl font-black">Good morning!</h1>
+
+		<Button on:click={() => goto('/requests')} variant="ghost">
+			<Bell class="w-6 h-6" />
+		</Button>
+	</div>
 
 	<div class="flex flex-col gap-5">
 		{#if friends === undefined}
