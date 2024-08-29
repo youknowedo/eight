@@ -8,6 +8,34 @@
       "when": 1724884078509,
       "tag": "0000_long_cloak",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1724962532196,
+      "tag": "0001_mushy_white_tiger",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1724964573489,
+      "tag": "0002_lyrical_scarlet_witch",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1724965108767,
+      "tag": "0003_strong_kylun",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1724965159248,
+      "tag": "0004_military_firebrand",
+      "breakpoints": true
     }
   ]
 }

@@ -2,11 +2,13 @@ import { relations } from "drizzle-orm";
 import { boolean, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 export const roleEnum = pgEnum("role", ["admin", "user"]);
+export const statusEnum = pgEnum("status", ["hanging", "down", "ghost"]);
 
 export const userTable = pgTable("user", {
     id: text("id").primaryKey(),
 
     role: roleEnum("role").notNull().default("user"),
+    status: statusEnum("status").notNull().default("ghost"),
 
     completed_profile: boolean("completed_profile").notNull().default(false),
     full_name: text("full_name"),
@@ -49,4 +51,14 @@ export const resetPasswordTable = pgTable("reset_password", {
         withTimezone: true,
         mode: "date",
     }).notNull(),
+});
+
+export const friendsTable = pgTable("friends", {
+    id: text("id").primaryKey(),
+    user1: text("user_1")
+        .notNull()
+        .references(() => userTable.id),
+    user2: text("user_2")
+        .notNull()
+        .references(() => userTable.id),
 });

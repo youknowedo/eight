@@ -7,4 +7,5 @@ export type User = {
     full_name: string | null;
     role: "admin" | "user";
     pfp: string | null;
+    status: "hanging" | "down" | "ghost";
 };

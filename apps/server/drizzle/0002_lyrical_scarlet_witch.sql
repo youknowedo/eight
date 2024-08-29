@@ -1,0 +1,1 @@
+ALTER TABLE "friends" ADD COLUMN "id" text PRIMARY KEY NOT NULL;

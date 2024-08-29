@@ -16,6 +16,7 @@ export const lucia = new Lucia(adapter, {
             full_name: attributes.full_name,
             role: attributes.role,
             pfp: null as string | null,
+            status: attributes.status,
         };
     },
 });
@@ -31,6 +32,7 @@ declare module "lucia" {
             full_name: string | null;
             role: "admin" | "user";
             pfp: string | null;
+            status: "hanging" | "down" | "ghost";
         };
     }
 }
