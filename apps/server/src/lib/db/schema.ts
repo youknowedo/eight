@@ -72,3 +72,14 @@ export const friendRequestsTable = pgTable("friend_requests", {
         .notNull()
         .references(() => userTable.id),
 });
+
+export const locationsTable = pgTable("locations", {
+    id: text("id")
+        .primaryKey()
+        .references(() => userTable.id),
+    latitude: text("latitude").notNull(),
+    longitude: text("longitude").notNull(),
+    timestamp: timestamp("timestamp", {
+        withTimezone: true,
+    }).notNull(),
+});

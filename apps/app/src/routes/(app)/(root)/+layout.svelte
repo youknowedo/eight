@@ -9,7 +9,7 @@
 	let switching = false;
 </script>
 
-<div class="relative flex flex-col h-screen pt-12 pb-32">
+<div class="flex flex-col h-screen pt-12 pb-32">
 	<slot />
 </div>
 <div

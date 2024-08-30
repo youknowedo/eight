@@ -43,6 +43,13 @@
       "when": 1724971004676,
       "tag": "0005_regular_speed",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1725042284493,
+      "tag": "0006_mysterious_jazinda",
+      "breakpoints": true
     }
   ]
 }
