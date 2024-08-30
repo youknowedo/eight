@@ -13,7 +13,7 @@
 	<slot />
 </div>
 <div
-	class="absolute flex items-center justify-around h-20 bottom-12 rounded-3xl bg-background w-80 neu-up"
+	class="absolute z-50 flex items-center justify-around h-20 bottom-12 rounded-3xl bg-background w-80 neu-up"
 >
 	<div
 		class="absolute w-16 h-16 rounded-full bg-primary neu-r -z-10 duration-500 {$page.url.pathname.startsWith(
