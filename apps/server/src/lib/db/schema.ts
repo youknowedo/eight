@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { boolean, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+    boolean,
+    numeric,
+    pgEnum,
+    pgTable,
+    text,
+    timestamp,
+} from "drizzle-orm/pg-core";
 
 export const roleEnum = pgEnum("role", ["admin", "user"]);
 export const statusEnum = pgEnum("status", ["hanging", "down", "ghost"]);
@@ -77,8 +84,8 @@ export const locationsTable = pgTable("locations", {
     id: text("id")
         .primaryKey()
         .references(() => userTable.id),
-    latitude: text("latitude").notNull(),
-    longitude: text("longitude").notNull(),
+    latitude: numeric("latitude").notNull(),
+    longitude: numeric("longitude").notNull(),
     timestamp: timestamp("timestamp", {
         withTimezone: true,
     }).notNull(),

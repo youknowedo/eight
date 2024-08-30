@@ -1,14 +1,30 @@
-import { and, eq, or } from "drizzle-orm";
+import { and, eq, inArray, or } from "drizzle-orm";
 import { z } from "zod";
 import { lucia } from "../../lib/auth";
 import { db } from "../../lib/db";
 import { friendsTable, locationsTable } from "../../lib/db/schema";
 import { procedure } from "../../server";
+import type { ResponseData } from "../../types";
+
+type Location = {
+    latitude: number;
+    longitude: number;
+};
 
 export const queries = {
-    friend: procedure
-        .input(z.string())
-        .query(async ({ ctx, input: userId }) => {
+    friends: procedure.query(
+        async ({
+            ctx,
+        }): Promise<
+            ResponseData<{
+                locations: {
+                    id: string;
+                    latitude: number;
+                    longitude: number;
+                    timestamp: Date;
+                }[];
+            }>
+        > => {
             if (!ctx.sessionId)
                 return {
                     success: false,
@@ -25,37 +41,29 @@ export const queries = {
                 };
 
             const friends = await db
-                .select()
+                .select({ id: friendsTable.id })
                 .from(friendsTable)
                 .where(
                     or(
-                        and(
-                            eq(friendsTable.user1, user.id),
-                            eq(friendsTable.user2, userId)
-                        ),
-                        and(
-                            eq(friendsTable.user1, userId),
-                            eq(friendsTable.user2, user.id)
-                        )
+                        eq(friendsTable.user1, user.id),
+                        eq(friendsTable.user2, user.id)
                     )
                 );
 
-            if (friends.length === 0)
-                return {
-                    success: false,
-                    error: "Not friends",
-                };
-
-            const userLocation = (
-                await db
-                    .select()
-                    .from(locationsTable)
-                    .where(eq(locationsTable.id, userId))
-            )[0];
+            const friendLocations = await db
+                .select()
+                .from(locationsTable)
+                .where(
+                    inArray(
+                        locationsTable.id,
+                        friends.map((f) => f.id)
+                    )
+                );
 
             return {
                 success: true,
-                location: userLocation,
+                locations: friendLocations,
             };
-        }),
+        }
+    ),
 };

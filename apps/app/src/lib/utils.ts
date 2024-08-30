@@ -1,3 +1,6 @@
+import { friendLocations, location } from './stores';
+import { trpc } from './trpc';
+
 export const onMobile = () => {
 	// @ts-expect-error opera is not defined
 	const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -10,4 +13,24 @@ export const onMobile = () => {
 			userAgent.substr(0, 4)
 		)
 	);
+};
+
+export const updateLocations = async () => {
+	if (!navigator.geolocation) return;
+
+	navigator.geolocation.getCurrentPosition((position) => {
+		const { latitude, longitude } = position.coords;
+
+		location.set({ latitude, longitude });
+	});
+
+	const { success, error, locations } = await trpc.location.friends.query();
+	if (!success || !locations) return alert(error);
+
+	const ls: { [id: string]: { latitude: number; longitude: number } } = {};
+	locations.forEach((l) => {
+		ls[l.id] = l;
+	});
+
+	friendLocations.set(ls);
 };

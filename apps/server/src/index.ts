@@ -9,6 +9,7 @@ import express, {
 } from "express";
 import { auth } from "./procedures/auth/index.js";
 import { friends } from "./procedures/friend/index.js";
+import { location } from "./procedures/location/index.js";
 import { user } from "./procedures/user/index.js";
 import { createContext, router } from "./server.js";
 
@@ -16,6 +17,7 @@ export const appRouter = router({
     auth,
     user,
     friends,
+    location,
 });
 
 export type AppRouter = typeof appRouter;

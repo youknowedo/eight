@@ -5,6 +5,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { offline, user } from '$lib/stores';
 	import { trpc } from '$lib/trpc';
+	import { updateLocations } from '$lib/utils';
 	import { AlertDialog, Button, Card, Input, Label, Toaster } from '@eight/ui/components';
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
@@ -20,6 +21,8 @@
 		user.set(u ?? null);
 
 		if (u) localStorage.setItem('user', JSON.stringify(u));
+
+		setInterval(updateLocations, 60 * 1000);
 	});
 
 	const verify = async (e: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) => {

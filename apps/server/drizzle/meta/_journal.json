@@ -5,50 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1724884078509,
-      "tag": "0000_long_cloak",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1724962532196,
-      "tag": "0001_mushy_white_tiger",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1724964573489,
-      "tag": "0002_lyrical_scarlet_witch",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1724965108767,
-      "tag": "0003_strong_kylun",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1724965159248,
-      "tag": "0004_military_firebrand",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1724971004676,
-      "tag": "0005_regular_speed",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1725042284493,
-      "tag": "0006_mysterious_jazinda",
+      "when": 1725050711902,
+      "tag": "0000_wooden_daredevil",
       "breakpoints": true
     }
   ]

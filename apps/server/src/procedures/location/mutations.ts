@@ -9,8 +9,8 @@ export const mutations = {
     update: procedure
         .input(
             z.object({
-                latitude: z.string(),
-                longitude: z.string(),
+                latitude: z.number(),
+                longitude: z.number(),
             })
         )
         .query(async ({ ctx, input }) => {
