@@ -16,13 +16,20 @@ export const onMobile = () => {
 };
 
 export const updateLocations = async () => {
-	if (!navigator.geolocation) return;
+	navigator.geolocation.getCurrentPosition(
+		async (position) => {
+			const { latitude, longitude } = position.coords;
 
-	navigator.geolocation.getCurrentPosition((position) => {
-		const { latitude, longitude } = position.coords;
+			location.set({ latitude, longitude });
 
-		location.set({ latitude, longitude });
-	});
+			const { success, error } = await trpc.location.update.query({ latitude, longitude });
+			if (!success) return alert(error);
+		},
+		() => {
+			location.set({ latitude: 48.858093, longitude: 2.294694 });
+			alert('Could not get your location');
+		}
+	);
 
 	const { success, error, locations } = await trpc.location.friends.query();
 	if (!success || !locations) return alert(error);

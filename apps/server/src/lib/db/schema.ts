@@ -84,8 +84,8 @@ export const locationsTable = pgTable("locations", {
     id: text("id")
         .primaryKey()
         .references(() => userTable.id),
-    latitude: numeric("latitude").notNull(),
-    longitude: numeric("longitude").notNull(),
+    latitude: numeric("latitude").$type<number>().notNull(),
+    longitude: numeric("longitude").$type<number>().notNull(),
     timestamp: timestamp("timestamp", {
         withTimezone: true,
     }).notNull(),

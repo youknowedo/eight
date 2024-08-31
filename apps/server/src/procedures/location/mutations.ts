@@ -4,6 +4,7 @@ import { lucia } from "../../lib/auth";
 import { db } from "../../lib/db";
 import { friendsTable, locationsTable } from "../../lib/db/schema";
 import { procedure } from "../../server";
+import type { ResponseData } from "../../types";
 
 export const mutations = {
     update: procedure
@@ -13,7 +14,7 @@ export const mutations = {
                 longitude: z.number(),
             })
         )
-        .query(async ({ ctx, input }) => {
+        .query(async ({ ctx, input }): Promise<ResponseData> => {
             if (!ctx.sessionId)
                 return {
                     success: false,

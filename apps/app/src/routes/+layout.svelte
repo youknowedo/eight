@@ -21,8 +21,6 @@
 		user.set(u ?? null);
 
 		if (u) localStorage.setItem('user', JSON.stringify(u));
-
-		setInterval(updateLocations, 60 * 1000);
 	});
 
 	const verify = async (e: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) => {
