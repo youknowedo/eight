@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Compass from 'lucide-svelte/icons/compass';
-	import User from 'lucide-svelte/icons/user';
+	import Users from 'lucide-svelte/icons/users';
 
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
@@ -20,9 +20,11 @@
 			'/explore'
 		)
 			? 'mr-[13.25rem]'
-			: $page.url.pathname.startsWith('/profile')
+			: $page.url.pathname.startsWith('/friends')
 				? '-mr-[13.25rem]'
-				: 'mr-0'} {switching ? 'elongate' : ''}"
+				: $page.url.pathname.startsWith('/start')
+					? 'mr-0'
+					: 'hidden'} {switching ? 'elongate' : ''}"
 	/>
 
 	<button
@@ -42,7 +44,7 @@
 			setTimeout(() => {
 				switching = false;
 			}, 500);
-			goto('/');
+			goto('/start');
 		}}
 	>
 		<img class="w-6 h-6 m-6" src="{base}/logo.svg" alt="" />
@@ -53,9 +55,9 @@
 			setTimeout(() => {
 				switching = false;
 			}, 500);
-			goto('/profile');
+			goto('/friends');
 		}}
 	>
-		<User class="w-6 h-6 m-6" />
+		<Users class="w-6 h-6 m-6" />
 	</button>
 </div>

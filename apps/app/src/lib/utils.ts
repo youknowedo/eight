@@ -1,3 +1,5 @@
+import type { Map } from 'leaflet';
+import { get } from 'svelte/store';
 import { friendLocations, location } from './stores';
 import { trpc } from './trpc';
 
@@ -15,7 +17,7 @@ export const onMobile = () => {
 	);
 };
 
-export const updateLocations = async () => {
+export const updateLocations = async (map?: Map) => {
 	navigator.geolocation.getCurrentPosition(
 		async (position) => {
 			const { latitude, longitude } = position.coords;
@@ -40,4 +42,29 @@ export const updateLocations = async () => {
 	});
 
 	friendLocations.set(ls);
+
+	if (!map) return;
+
+	const leaflet = await import('leaflet');
+
+	map.eachLayer((layer) => map.removeLayer(layer));
+	leaflet
+		.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution:
+				'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+		})
+		.addTo(map);
+
+	leaflet
+		.marker([get(location)?.latitude ?? 0, get(location)?.longitude ?? 0])
+		.addTo(map)
+		.bindPopup('You are here!');
+
+	map.setView([get(location)?.latitude ?? 0, get(location)?.longitude ?? 0], 16);
+
+	for (const element of Object.entries(locations)) {
+		const [id, location] = element;
+		const marker = leaflet.marker([location.latitude, location.longitude]).addTo(map);
+		marker.bindPopup(`<b>${id}</b><br>${location.latitude}, ${location.longitude}`);
+	}
 };
