@@ -3,6 +3,9 @@
         "latlng",
         "locationerror",
         "locationfound",
+        "precache",
+        "precaching",
+        "prerendered",
         "Raleway",
         "sonner",
         "trpc"

@@ -22,6 +22,6 @@
 	});
 </script>
 
-<div class="mx-auto max-w-80">
+<div class="py-12 mx-auto max-w-80">
 	<slot />
 </div>

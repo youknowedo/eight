@@ -14,7 +14,7 @@ import { procedure } from "../../server.js";
 import type { ResponseData } from "../../types";
 
 export const queries = {
-    getAll: procedure
+    all: procedure
         .input(z.string().nullish())
         .query(
             async ({

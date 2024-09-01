@@ -2,7 +2,7 @@ import { and, eq, inArray, or } from "drizzle-orm";
 import { z } from "zod";
 import { lucia } from "../../lib/auth";
 import { db } from "../../lib/db";
-import { friendsTable, locationsTable } from "../../lib/db/schema";
+import { friendsTable, locationsTable, userTable } from "../../lib/db/schema";
 import { procedure } from "../../server";
 import type { ResponseData } from "../../types";
 
@@ -37,6 +37,22 @@ export const queries = {
                 .from(locationsTable)
                 .where(eq(locationsTable.id, userId ?? user.id));
 
+            if (
+                userLocations[0].timestamp >
+                new Date(Date.now() + 1000 * 60 * 60)
+            ) {
+                await db
+                    .delete(locationsTable)
+                    .where(eq(locationsTable.id, userId ?? user.id));
+                await db.update(userTable).set({
+                    status: "ghost",
+                });
+
+                return {
+                    success: true,
+                };
+            }
+
             return {
                 success: true,
                 location: userLocations[0],
@@ -70,15 +86,36 @@ export const queries = {
                     )
                 );
 
-            const friendLocations = await db
-                .select()
-                .from(locationsTable)
-                .where(
-                    inArray(
-                        locationsTable.id,
-                        friends.map((f) => f.id)
+            const friendLocations = (
+                await db
+                    .select()
+                    .from(locationsTable)
+                    .where(
+                        inArray(
+                            locationsTable.id,
+                            friends.map((f) => f.id)
+                        )
                     )
-                );
+            )
+                .map((location) => {
+                    if (
+                        location.timestamp <
+                        new Date(Date.now() + 1000 * 60 * 60)
+                    )
+                        return location;
+
+                    db.delete(locationsTable).where(
+                        eq(locationsTable.id, location.id)
+                    );
+                    db.update(userTable)
+                        .set({
+                            status: "ghost",
+                        })
+                        .where(eq(userTable.id, location.id));
+
+                    return null;
+                })
+                .filter((l) => l !== null);
 
             return {
                 success: true,

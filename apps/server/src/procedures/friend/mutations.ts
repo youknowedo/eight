@@ -89,53 +89,88 @@ export const mutations = {
         ),
     accept: procedure
         .input(z.string())
-        .mutation(
-            async ({
-                ctx,
-                input: id,
-            }): Promise<ResponseData<{ success: boolean }>> => {
-                const { session, user } = await lucia.validateSession(
-                    ctx.sessionId ?? ""
-                );
-                if (!session)
-                    return {
-                        success: false,
-                        error: "Unauthenticated",
-                    };
-
-                const request = (
-                    await db
-                        .select({
-                            id: friendRequestsTable.id,
-                        })
-                        .from(friendRequestsTable)
-                        .where(
-                            and(
-                                eq(friendRequestsTable.from, id),
-                                eq(friendRequestsTable.to, user.id)
-                            )
-                        )
-                )[0];
-
-                if (!request)
-                    return {
-                        success: false,
-                        error: "Friend request not found",
-                    };
-
-                await db.insert(friendsTable).values({
-                    id: generateIdFromEntropySize(10),
-                    user1: user.id,
-                    user2: id,
-                });
-
-                await db
-                    .delete(friendRequestsTable)
-                    .where(eq(friendRequestsTable.id, request.id));
-
+        .mutation(async ({ ctx, input: id }): Promise<ResponseData> => {
+            const { session, user } = await lucia.validateSession(
+                ctx.sessionId ?? ""
+            );
+            if (!session)
                 return {
-                    success: true,
+                    success: false,
+                    error: "Unauthenticated",
                 };
-            }
-        ),
+
+            const request = (
+                await db
+                    .select({
+                        id: friendRequestsTable.id,
+                    })
+                    .from(friendRequestsTable)
+                    .where(
+                        and(
+                            eq(friendRequestsTable.from, id),
+                            eq(friendRequestsTable.to, user.id)
+                        )
+                    )
+            )[0];
+
+            if (!request)
+                return {
+                    success: false,
+                    error: "Friend request not found",
+                };
+
+            await db.insert(friendsTable).values({
+                id: generateIdFromEntropySize(10),
+                user1: user.id,
+                user2: id,
+            });
+
+            await db
+                .delete(friendRequestsTable)
+                .where(eq(friendRequestsTable.id, request.id));
+
+            return {
+                success: true,
+            };
+        }),
+    reject: procedure
+        .input(z.string())
+        .mutation(async ({ ctx, input: id }): Promise<ResponseData> => {
+            const { session, user } = await lucia.validateSession(
+                ctx.sessionId ?? ""
+            );
+            if (!session)
+                return {
+                    success: false,
+                    error: "Unauthenticated",
+                };
+
+            const request = (
+                await db
+                    .select({
+                        id: friendRequestsTable.id,
+                    })
+                    .from(friendRequestsTable)
+                    .where(
+                        and(
+                            eq(friendRequestsTable.from, id),
+                            eq(friendRequestsTable.to, user.id)
+                        )
+                    )
+            )[0];
+
+            if (!request)
+                return {
+                    success: false,
+                    error: "Friend request not found",
+                };
+
+            await db
+                .delete(friendRequestsTable)
+                .where(eq(friendRequestsTable.id, request.id));
+
+            return {
+                success: true,
+            };
+        }),
 };

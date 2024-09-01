@@ -5,12 +5,17 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
-	import { sessionStarted } from '$lib/stores';
+	import { sessionStarted, user } from '$lib/stores';
+	import { onMount } from 'svelte';
 
 	let switching = false;
+
+	onMount(() => {
+		if (!$user?.completed_profile) goto('/completeProfile');
+	});
 </script>
 
-<div class="flex flex-col h-screen pt-12 pb-32">
+<div class="flex flex-col h-screen pb-20">
 	<slot />
 </div>
 <div
@@ -23,7 +28,7 @@
 			'/explore'
 		)
 			? 'mr-[13.25rem]'
-			: $page.url.pathname.startsWith('/friends')
+			: $page.url.pathname.startsWith('/social')
 				? '-mr-[13.25rem]'
 				: $page.url.pathname.startsWith('/start')
 					? 'mr-0'
@@ -58,7 +63,7 @@
 			setTimeout(() => {
 				switching = false;
 			}, 500);
-			goto('/friends');
+			goto('/social');
 		}}
 	>
 		<Users class="w-6 h-6 m-6" />

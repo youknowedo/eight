@@ -8,6 +8,7 @@
 	import { toast } from 'svelte-sonner';
 
 	type Request = {
+		id: string;
 		name: string;
 		username: string;
 		avatar: string;
@@ -21,6 +22,7 @@
 		const { users } = await trpc.user.multiple.query(ids);
 
 		requests = users?.map((user) => ({
+			id: user.id,
 			name: user.full_name ?? '',
 			username: user.username,
 			avatar: user.pfp ?? '',
@@ -28,11 +30,25 @@
 		}));
 	});
 
-	const accept = async (id: string) => {};
-	const reject = async (id: string) => {};
+	const accept = async (id: string) => {
+		const { success, error } = await trpc.friends.accept.mutate(id);
+
+		if (success) {
+			toast.success('Friend request accepted!');
+			requests = requests?.filter((request) => request.username !== id);
+		} else toast.error(error ?? 'An error occurred');
+	};
+	const reject = async (id: string) => {
+		const { success, error } = await trpc.friends.reject.mutate(id);
+
+		if (success) {
+			toast.success('Friend request rejected!');
+			requests = requests?.filter((request) => request.username !== id);
+		} else toast.error(error ?? 'An error occurred');
+	};
 </script>
 
-<button on:click={() => goto('/')} class="flex items-center -m-4 mb-4">
+<button on:click={() => history.back()} class="flex items-center mb-4 -m-4">
 	<ChevronLeft class="w-6 h-6 m-4" />
 
 	<h1 class="text-3xl font-black">Friend Requests</h1>
@@ -42,18 +58,18 @@
 	{#if requests === undefined}
 		<p class="text-2xl text-gray-500">Loading...</p>
 	{:else}
-		{#each requests as request}
-			<div class="flex items-center gap-3 {request.status == 'ghost' ? 'opacity-50' : ''}">
-				<img src={request.avatar} alt={request.name} class="w-12 h-12 rounded-2xl" />
+		{#each requests as requestUser}
+			<div class="flex items-center gap-3">
+				<img src={requestUser.avatar} alt={requestUser.name} class="w-12 h-12 rounded-2xl" />
 				<div class="flex-1">
-					<p class="text-2xl font-black">{request.name}</p>
+					<p class="text-2xl font-black">{requestUser.name}</p>
 					<p class="text-sm">
-						@{request.username}
+						@{requestUser.username}
 					</p>
 				</div>
 				<div class="flex items-center">
-					<Button variant="destructive">Reject</Button>
-					<Button>Accept</Button>
+					<Button on:click={() => reject(requestUser.id)} variant="destructive">Reject</Button>
+					<Button on:click={() => accept(requestUser.id)}>Accept</Button>
 				</div>
 			</div>
 		{/each}

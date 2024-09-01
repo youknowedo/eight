@@ -12,7 +12,7 @@
 
 <SeparatorPrimitive.Root
 	class={cn(
-		'bg-border shrink-0 neu-up',
+		'shrink-0 neu-up box-content mx-auto rounded-full bg-background',
 		orientation === 'horizontal' ? 'h-[1px] w-full' : 'min-h-full w-[1px]',
 		className
 	)}

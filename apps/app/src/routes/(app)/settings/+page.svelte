@@ -1,6 +1,7 @@
 <script lang="ts">
+	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
+
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
 	import { user } from '$lib/stores';
 	import { trpc } from '$lib/trpc';
 	import { Button, Input, Label, Separator } from '@eight/ui/components';
@@ -10,7 +11,8 @@
 	let fullName: string | null = null;
 
 	onMount(() => {
-		if ($user?.completed_profile) goto('/');
+		fullName = $user?.full_name ?? '';
+		pfp = $user?.pfp ?? null;
 	});
 
 	const onSubmit = async (
@@ -39,8 +41,13 @@
 	};
 </script>
 
-<!-- {#if onMobile()} -->
-<form on:submit={onSubmit} class="flex flex-col h-screen m-auto max-w-80">
+<button on:click={() => history.back()} class="flex items-center mb-4 -m-4">
+	<ChevronLeft class="w-6 h-6 m-4" />
+
+	<h1 class="text-3xl font-black">Settings</h1>
+</button>
+
+<form on:submit={onSubmit} class="flex flex-col py-12 m-auto max-w-80">
 	<div class="flex-1">
 		<label for="picture" class=" neu-up">
 			{#if pfp}
@@ -94,9 +101,3 @@
 		Send
 	</Button>
 </form>
-<!-- {:else}
-	<p>
-		Profile picture upload only available on mobile. Please login on your phone and continue from
-		there.
-	</p>
-{/if} -->

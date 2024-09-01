@@ -3,6 +3,7 @@
 	import BellDot from 'lucide-svelte/icons/bell-dot';
 
 	import { goto } from '$app/navigation';
+	import { user } from '$lib/stores';
 	import { trpc } from '$lib/trpc';
 	import { Button } from '@eight/ui/components';
 	import { onMount } from 'svelte';
@@ -18,7 +19,7 @@
 	let hasRequests = false;
 
 	onMount(async () => {
-		const { friends: ids } = await trpc.friends.getAll.query();
+		const { friends: ids } = await trpc.friends.all.query();
 		const { users } = await trpc.user.multiple.query(ids);
 		const { requests: r } = await trpc.friends.requests.query();
 		hasRequests = !!r && r.length > 0;
@@ -33,15 +34,21 @@
 
 <div class="flex flex-col gap-8">
 	<div class="flex justify-between">
-		<h1 class="text-3xl font-black">Friends</h1>
+		<h1 class="text-3xl font-black">Social</h1>
 
-		<button on:click={() => goto('/friends/requests')} class="-m-6">
-			{#if hasRequests}
-				<BellDot class="w-6 h-6 m-6" />
-			{:else}
-				<Bell class="w-6 h-6 m-6" />
-			{/if}
-		</button>
+		<div class="flex gap-6">
+			<button on:click={() => goto('/social/requests')} class="-m-6">
+				{#if hasRequests}
+					<BellDot class="w-4 h-4 m-6" />
+				{:else}
+					<Bell class="w-4 h-4 m-6" />
+				{/if}
+			</button>
+
+			<button on:click={() => goto('/social/profile')}>
+				<img src={$user?.pfp} alt="pfp" class="object-cover w-10 h-10 rounded-full" />
+			</button>
+		</div>
 	</div>
 
 	<div class="flex flex-col gap-5">
@@ -50,7 +57,7 @@
 		{:else}
 			{#each friends as friend}
 				<div class="flex items-center gap-3 {friend.status == 'ghost' ? 'opacity-50' : ''}">
-					<img src={friend.avatar} alt={friend.name} class="w-12 h-12 rounded-2xl" />
+					<img src={friend.avatar} alt={friend.name} class="object-cover w-12 h-12 rounded-2xl" />
 					<div>
 						<p class="text-2xl font-black">{friend.name}</p>
 						<p
@@ -78,8 +85,8 @@
 			{/each}
 
 			<!-- Add friend button, link to add friend page -->
-			<Button variant="secondary" on:click={() => goto('/friends/add')} class="w-full">
-				Search for friends
+			<Button variant="secondary" on:click={() => goto('/social/add')} class="w-full">
+				Add friends
 			</Button>
 		{/if}
 	</div>
