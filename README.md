@@ -1,4 +1,4 @@
-### 🚧 UNDER DEVELOPMENT 🚧 - Core functionalities only
+### 🚧 UNDER DEVELOPMENT 🚧 - MVP
 
 # eight - the active social app
 
