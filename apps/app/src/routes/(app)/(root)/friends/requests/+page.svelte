@@ -18,7 +18,7 @@
 
 	onMount(async () => {
 		const { requests: ids } = await trpc.friends.requests.query();
-		const { users } = await trpc.user.getMultiple.query(ids);
+		const { users } = await trpc.user.multiple.query(ids);
 
 		requests = users?.map((user) => ({
 			name: user.full_name ?? '',
@@ -35,7 +35,7 @@
 <button on:click={() => goto('/')} class="flex items-center mb-4 -ml-4">
 	<ChevronLeft class="w-6 h-6 m-4" />
 
-	<p class="text-2xl font-black">Friend Requests</p>
+	<h1 class="text-3xl font-black">Friend Requests</h1>
 </button>
 
 <div class="flex flex-col gap-5">

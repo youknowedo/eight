@@ -19,7 +19,7 @@
 
 	onMount(async () => {
 		const { friends: ids } = await trpc.friends.getAll.query();
-		const { users } = await trpc.user.getMultiple.query(ids);
+		const { users } = await trpc.user.multiple.query(ids);
 
 		friends = users?.map((user) => ({
 			name: user.full_name ?? '',
@@ -31,11 +31,11 @@
 
 <div class="flex flex-col gap-8">
 	<div class="flex justify-between">
-		<h1 class="text-5xl font-black">Good morning!</h1>
+		<h1 class="text-3xl font-black">Friends</h1>
 
-		<Button on:click={() => goto('/friends/requests')} variant="ghost">
-			<Bell class="w-6 h-6" />
-		</Button>
+		<button on:click={() => goto('/friends/requests')} class="-m-6">
+			<Bell class="w-6 h-6 m-6" />
+		</button>
 	</div>
 
 	<div class="flex flex-col gap-5">
@@ -70,6 +70,11 @@
 					</div>
 				</div>
 			{/each}
+
+			<!-- Add friend button, link to add friend page -->
+			<Button variant="secondary" on:click={() => goto('/friends/add')} class="w-full">
+				Search for friends
+			</Button>
 		{/if}
 	</div>
 </div>

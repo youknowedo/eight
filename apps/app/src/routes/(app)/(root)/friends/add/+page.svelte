@@ -23,7 +23,7 @@
 <button on:click={() => goto('/')} class="flex items-center mb-4 -ml-4">
 	<ChevronLeft class="w-6 h-6 m-4" />
 
-	<p class="text-2xl font-black">Add friend</p>
+	<h1 class="text-3xl font-black">Add friend</h1>
 </button>
 
 <form class="flex gap-2" on:submit={request}>

@@ -21,14 +21,8 @@ export const queries = {
                 ctx,
                 input: id,
             }): Promise<ResponseData<{ friends: string[] }>> => {
-                if (!ctx.sessionId)
-                    return {
-                        success: false,
-                        error: "Unauthenticated",
-                    };
-
                 const { session, user } = await lucia.validateSession(
-                    ctx.sessionId
+                    ctx.sessionId ?? ""
                 );
                 if (!session)
                     return {
@@ -72,14 +66,8 @@ export const queries = {
                 ctx,
                 input: id,
             }): Promise<ResponseData<{ requests: string[] }>> => {
-                if (!ctx.sessionId)
-                    return {
-                        success: false,
-                        error: "Unauthenticated",
-                    };
-
                 const { session, user } = await lucia.validateSession(
-                    ctx.sessionId
+                    ctx.sessionId ?? ""
                 );
                 if (!session)
                     return {

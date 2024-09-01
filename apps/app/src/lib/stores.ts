@@ -12,3 +12,5 @@ type Location = {
 
 export const location = writable<Location | null | undefined>(undefined);
 export const friendLocations = writable<{ [userId: string]: Location }>({});
+
+export const sessionStarted = writable(false);

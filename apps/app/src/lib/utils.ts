@@ -1,6 +1,6 @@
 import type { Map } from 'leaflet';
 import { get } from 'svelte/store';
-import { friendLocations, location } from './stores';
+import { friendLocations, location, sessionStarted } from './stores';
 import { trpc } from './trpc';
 
 export const onMobile = () => {
@@ -24,12 +24,20 @@ export const updateLocations = async (map?: Map) => {
 
 			location.set({ latitude, longitude });
 
+			if (!get(sessionStarted)) return;
+
 			const { success, error } = await trpc.location.update.query({ latitude, longitude });
 			if (!success) return alert(error);
 		},
-		() => {
+		async (e) => {
+			console.error(e);
+
 			location.set({ latitude: 48.858093, longitude: 2.294694 });
-			alert('Could not get your location');
+			const { success, error } = await trpc.location.update.query({
+				latitude: 48.858093,
+				longitude: 2.294694
+			});
+			if (!success) return alert(error);
 		}
 	);
 

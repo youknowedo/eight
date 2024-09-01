@@ -19,14 +19,8 @@ export const mutations = {
                 ctx,
                 input,
             }): Promise<ResponseData<{ pfpUploadUrl: string }>> => {
-                if (!ctx.sessionId)
-                    return {
-                        success: false,
-                        error: "Unauthenticated",
-                    };
-
                 const { session, user } = await lucia.validateSession(
-                    ctx.sessionId
+                    ctx.sessionId ?? ""
                 );
                 if (!session)
                     return {

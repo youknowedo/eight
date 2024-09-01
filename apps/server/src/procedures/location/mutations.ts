@@ -7,6 +7,39 @@ import { procedure } from "../../server";
 import type { ResponseData } from "../../types";
 
 export const mutations = {
+    start: procedure
+        .input(
+            z.object({
+                latitude: z.number(),
+                longitude: z.number(),
+            })
+        )
+        .query(
+            async ({
+                ctx,
+                input: { latitude, longitude },
+            }): Promise<ResponseData> => {
+                const { session, user } = await lucia.validateSession(
+                    ctx.sessionId ?? ""
+                );
+                if (!session)
+                    return {
+                        success: false,
+                        error: "Unauthenticated",
+                    };
+
+                await db.insert(locationsTable).values({
+                    id: user.id,
+                    latitude,
+                    longitude,
+                    timestamp: new Date(),
+                });
+
+                return {
+                    success: true,
+                };
+            }
+        ),
     update: procedure
         .input(
             z.object({
@@ -15,19 +48,13 @@ export const mutations = {
             })
         )
         .query(async ({ ctx, input }): Promise<ResponseData> => {
-            if (!ctx.sessionId)
-                return {
-                    success: false,
-                    error: "Unauthenticated 1",
-                };
-
             const { session, user } = await lucia.validateSession(
-                ctx.sessionId
+                ctx.sessionId ?? ""
             );
             if (!session)
                 return {
                     success: false,
-                    error: "Unauthenticated 2",
+                    error: "Unauthenticated",
                 };
 
             const userLocation = (
@@ -58,4 +85,20 @@ export const mutations = {
                 success: true,
             };
         }),
+    stop: procedure.query(async ({ ctx }): Promise<ResponseData> => {
+        const { session, user } = await lucia.validateSession(
+            ctx.sessionId ?? ""
+        );
+        if (!session)
+            return {
+                success: false,
+                error: "Unauthenticated",
+            };
+
+        await db.delete(locationsTable).where(eq(locationsTable.id, user.id));
+
+        return {
+            success: true,
+        };
+    }),
 };

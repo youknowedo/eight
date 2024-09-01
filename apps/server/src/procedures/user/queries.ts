@@ -10,26 +10,20 @@ import { procedure } from "../../server.js";
 import type { ResponseData } from "../../types";
 
 export const queries = {
-    getSingle: procedure
+    single: procedure
         .input(z.string().nullish())
         .query(
             async ({
                 ctx,
                 input: id,
             }): Promise<{ success: boolean; error?: string; user?: User }> => {
-                if (!ctx.sessionId)
-                    return {
-                        success: false,
-                        error: "Unauthenticated 1",
-                    };
-
                 const { session, user } = await lucia.validateSession(
-                    ctx.sessionId
+                    ctx.sessionId ?? ""
                 );
                 if (!session)
                     return {
                         success: false,
-                        error: "Unauthenticated 2",
+                        error: "Unauthenticated",
                     };
 
                 if (!id)
@@ -70,21 +64,15 @@ export const queries = {
             }
         ),
 
-    getMultiple: procedure
+    multiple: procedure
         .input(z.array(z.string()).nullish())
         .query(
             async ({
                 ctx,
                 input: ids,
             }): Promise<ResponseData<{ users: User[] }>> => {
-                if (!ctx.sessionId)
-                    return {
-                        success: false,
-                        error: "Unauthenticated",
-                    };
-
                 const { session, user } = await lucia.validateSession(
-                    ctx.sessionId
+                    ctx.sessionId ?? ""
                 );
                 if (!session)
                     return {

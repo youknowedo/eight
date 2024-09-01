@@ -19,14 +19,8 @@ export const mutations = {
                 ctx,
                 input: id,
             }): Promise<ResponseData<{ success: boolean }>> => {
-                if (!ctx.sessionId)
-                    return {
-                        success: false,
-                        error: "Unauthenticated",
-                    };
-
                 const { session, user } = await lucia.validateSession(
-                    ctx.sessionId
+                    ctx.sessionId ?? ""
                 );
                 if (!session)
                     return {
@@ -100,14 +94,8 @@ export const mutations = {
                 ctx,
                 input: id,
             }): Promise<ResponseData<{ success: boolean }>> => {
-                if (!ctx.sessionId)
-                    return {
-                        success: false,
-                        error: "Unauthenticated",
-                    };
-
                 const { session, user } = await lucia.validateSession(
-                    ctx.sessionId
+                    ctx.sessionId ?? ""
                 );
                 if (!session)
                     return {

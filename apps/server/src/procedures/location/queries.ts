@@ -7,37 +7,57 @@ import { procedure } from "../../server";
 import type { ResponseData } from "../../types";
 
 type Location = {
+    id: string;
     latitude: number;
     longitude: number;
+    timestamp: Date;
 };
 
 export const queries = {
+    single: procedure.input(z.string().nullish()).query(
+        async ({
+            ctx,
+            input: userId,
+        }): Promise<
+            ResponseData<{
+                location: Location;
+            }>
+        > => {
+            const { session, user } = await lucia.validateSession(
+                ctx.sessionId ?? ""
+            );
+            if (!session)
+                return {
+                    success: false,
+                    error: "Unauthenticated",
+                };
+
+            const userLocations = await db
+                .select()
+                .from(locationsTable)
+                .where(eq(locationsTable.id, userId ?? user.id));
+
+            return {
+                success: true,
+                location: userLocations[0],
+            };
+        }
+    ),
     friends: procedure.query(
         async ({
             ctx,
         }): Promise<
             ResponseData<{
-                locations: {
-                    id: string;
-                    latitude: number;
-                    longitude: number;
-                    timestamp: Date;
-                }[];
+                locations: Location[];
             }>
         > => {
-            if (!ctx.sessionId)
-                return {
-                    success: false,
-                    error: "Unauthenticated 1",
-                };
-
             const { session, user } = await lucia.validateSession(
-                ctx.sessionId
+                ctx.sessionId ?? ""
             );
             if (!session)
                 return {
                     success: false,
-                    error: "Unauthenticated 2",
+                    error: "Unauthenticated",
                 };
 
             const friends = await db

@@ -4,12 +4,6 @@ import type { ResponseData } from "../../types.js";
 
 export const validate = procedure.query(
     async ({ ctx, input }): Promise<ResponseData> => {
-        if (!ctx.sessionId)
-            return {
-                success: false,
-                error: "Unauthenticated",
-            };
-
         const { session, user } = await lucia.validateSession(ctx.sessionId);
         if (!session)
             return {

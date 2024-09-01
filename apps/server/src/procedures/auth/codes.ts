@@ -13,14 +13,8 @@ export const codes = router({
     verify: procedure
         .input(z.string())
         .mutation(async ({ ctx, input: code }): Promise<ResponseData> => {
-            if (!ctx.sessionId)
-                return {
-                    success: false,
-                    error: "Unauthenticated",
-                };
-
             const { session: oldSession, user } = await lucia.validateSession(
-                ctx.sessionId
+                ctx.sessionId ?? ""
             );
             if (!oldSession)
                 return {
@@ -70,14 +64,8 @@ export const codes = router({
         }),
     resend: procedure.mutation(
         async ({ ctx, input }): Promise<ResponseData> => {
-            if (!ctx.sessionId)
-                return {
-                    success: false,
-                    error: "Unauthenticated",
-                };
-
             const { session, user } = await lucia.validateSession(
-                ctx.sessionId
+                ctx.sessionId ?? ""
             );
             if (!session)
                 return {

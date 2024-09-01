@@ -13,7 +13,7 @@
 	onMount(async () => {
 		offline.set(false);
 
-		const { user: u } = await trpc.user.getSingle
+		const { user: u } = await trpc.user.single
 			.query()
 			.catch(
 				() => (offline.set(true), { user: JSON.parse(localStorage.getItem('user') ?? 'null') })
@@ -35,7 +35,7 @@
 			return;
 		}
 
-		const { user: u } = await trpc.user.getSingle.query();
+		const { user: u } = await trpc.user.single.query();
 		user.set(u);
 
 		toast.success('Email verified!');

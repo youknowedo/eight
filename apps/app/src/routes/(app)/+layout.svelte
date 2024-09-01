@@ -1,16 +1,21 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
-	import { user } from '$lib/stores.js';
+	import { sessionStarted, user } from '$lib/stores.js';
+	import { trpc } from '$lib/trpc';
 	import { updateLocations } from '$lib/utils';
 	import { onMount } from 'svelte';
 
 	onMount(() => {
-		user.subscribe((u) => {
+		user.subscribe(async (u) => {
 			if (u === null) goto('/login');
 			if (!u) return;
 
-			if (!u.completed_profile) goto('/completeProfile');
+			if (!u.completed_profile) return goto('/completeProfile');
+
+			const { success, error, location } = await trpc.location.single.query();
+			if (!success) return console.error(error);
+
+			sessionStarted.set(!!location);
 		});
 
 		setInterval(updateLocations, 60 * 1000);
