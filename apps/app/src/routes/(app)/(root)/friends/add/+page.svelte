@@ -20,7 +20,7 @@
 	};
 </script>
 
-<button on:click={() => goto('/')} class="flex items-center mb-4 -ml-4">
+<button on:click={() => goto('/')} class="flex items-center mb-4 -m-4">
 	<ChevronLeft class="w-6 h-6 m-4" />
 
 	<h1 class="text-3xl font-black">Add friend</h1>

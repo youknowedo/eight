@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Bell from 'lucide-svelte/icons/bell';
-	import DoorOpen from 'lucide-svelte/icons/door-open';
-	import UserRoundPlus from 'lucide-svelte/icons/user-round-plus';
+	import BellDot from 'lucide-svelte/icons/bell-dot';
 
 	import { goto } from '$app/navigation';
 	import { trpc } from '$lib/trpc';
@@ -16,10 +15,13 @@
 	};
 
 	let friends: Friend[] | undefined = undefined;
+	let hasRequests = false;
 
 	onMount(async () => {
 		const { friends: ids } = await trpc.friends.getAll.query();
 		const { users } = await trpc.user.multiple.query(ids);
+		const { requests: r } = await trpc.friends.requests.query();
+		hasRequests = !!r && r.length > 0;
 
 		friends = users?.map((user) => ({
 			name: user.full_name ?? '',
@@ -34,7 +36,11 @@
 		<h1 class="text-3xl font-black">Friends</h1>
 
 		<button on:click={() => goto('/friends/requests')} class="-m-6">
-			<Bell class="w-6 h-6 m-6" />
+			{#if hasRequests}
+				<BellDot class="w-6 h-6 m-6" />
+			{:else}
+				<Bell class="w-6 h-6 m-6" />
+			{/if}
 		</button>
 	</div>
 

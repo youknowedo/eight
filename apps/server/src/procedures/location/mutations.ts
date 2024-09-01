@@ -2,7 +2,7 @@ import { eq, or } from "drizzle-orm";
 import { z } from "zod";
 import { lucia } from "../../lib/auth";
 import { db } from "../../lib/db";
-import { friendsTable, locationsTable } from "../../lib/db/schema";
+import { friendsTable, locationsTable, userTable } from "../../lib/db/schema";
 import { procedure } from "../../server";
 import type { ResponseData } from "../../types";
 
@@ -14,7 +14,7 @@ export const mutations = {
                 longitude: z.number(),
             })
         )
-        .query(
+        .mutation(
             async ({
                 ctx,
                 input: { latitude, longitude },
@@ -34,6 +34,9 @@ export const mutations = {
                     longitude,
                     timestamp: new Date(),
                 });
+                await db.update(userTable).set({
+                    status: "hanging",
+                });
 
                 return {
                     success: true,
@@ -47,7 +50,7 @@ export const mutations = {
                 longitude: z.number(),
             })
         )
-        .query(async ({ ctx, input }): Promise<ResponseData> => {
+        .mutation(async ({ ctx, input }): Promise<ResponseData> => {
             const { session, user } = await lucia.validateSession(
                 ctx.sessionId ?? ""
             );
@@ -85,7 +88,7 @@ export const mutations = {
                 success: true,
             };
         }),
-    stop: procedure.query(async ({ ctx }): Promise<ResponseData> => {
+    stop: procedure.mutation(async ({ ctx }): Promise<ResponseData> => {
         const { session, user } = await lucia.validateSession(
             ctx.sessionId ?? ""
         );
@@ -96,6 +99,9 @@ export const mutations = {
             };
 
         await db.delete(locationsTable).where(eq(locationsTable.id, user.id));
+        await db.update(userTable).set({
+            status: "ghost",
+        });
 
         return {
             success: true,

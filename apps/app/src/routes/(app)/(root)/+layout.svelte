@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
+	import { sessionStarted } from '$lib/stores';
 
 	let switching = false;
 </script>
@@ -13,7 +14,9 @@
 	<slot />
 </div>
 <div
-	class="absolute z-50 flex items-center justify-around h-20 bottom-12 rounded-3xl bg-background w-80 neu-up"
+	class="absolute z-50 flex items-center justify-around border bg-background h-20 duration-200 bottom-12 rounded-3xl w-80 neu-up {$sessionStarted
+		? 'border-primary'
+		: 'border-background'}"
 >
 	<div
 		class="absolute w-16 h-16 rounded-full bg-primary neu-r -z-10 duration-500 {$page.url.pathname.startsWith(

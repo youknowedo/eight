@@ -1,4 +1,4 @@
-### 🚧 UNDER DEVELOPMENT 🚧
+### 🚧 UNDER DEVELOPMENT 🚧 - Core functionalities only
 
 # eight - the active social app
 
@@ -8,8 +8,11 @@ Today's social media wants you to stay on the app, and therefore your screen, as
 
 -   [x] Login
 -   [x] Friend requests
--   [ ] Location sessions
--   [ ] Location sharing
+-   [x] Location sharing
+-   [ ] Custom map
+-   [ ] iOS app
+-   [ ] Background updates
+-   [ ] Session Grouping
 
 ## License
 

@@ -26,14 +26,14 @@ export const updateLocations = async (map?: Map) => {
 
 			if (!get(sessionStarted)) return;
 
-			const { success, error } = await trpc.location.update.query({ latitude, longitude });
+			const { success, error } = await trpc.location.update.mutate({ latitude, longitude });
 			if (!success) return alert(error);
 		},
 		async (e) => {
 			console.error(e);
 
 			location.set({ latitude: 48.858093, longitude: 2.294694 });
-			const { success, error } = await trpc.location.update.query({
+			const { success, error } = await trpc.location.update.mutate({
 				latitude: 48.858093,
 				longitude: 2.294694
 			});
