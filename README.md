@@ -1,6 +1,6 @@
-Made for Hack Club Arcade with GitHub Copilot as an assistant
+# ⚠️Moved to [youknowedo/apps](https://github.com/youknowedo/apps/tree/main/projects/eight)
 
-### 🚧 UNDER DEVELOPMENT 🚧 - MVP
+Made for Hack Club Arcade with GitHub Copilot as an assistant
 
 # eight - the active social app
 
